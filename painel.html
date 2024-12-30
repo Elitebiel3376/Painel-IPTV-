@@ -89,7 +89,7 @@
       <p><strong>Senha:</strong> <span id="dados-senha"></span></p>
       <p><strong>Vencimento:</strong> <span id="dados-vencimento"></span></p>
       <p><strong>EPG:</strong> <a href="http://x2.rs/epg" target="_blank">http://x2.rs/epg</a></p>
-      <p><strong>Lista M3U:</strong> <a href="http://brisenox.com/get.php?username=Hbcfvvcccc&password=qib4f9ip&type=m3u_plus&output=ts" target="_blank">Clique para acessar</a></p>
+      <p><strong>Lista M3U:</strong> <a href="#" id="m3u-link" target="_blank">Clique para acessar</a></p>
       <p><strong>Lazer Play:</strong></p>
       <p>Provider: centraliptvbr</p>
       <p>Usuário: <span id="lazer-play-usuario"></span></p>
@@ -98,7 +98,7 @@
       <p>Nome: Canais</p>
       <p>Usuário: <span id="iptv-usuario"></span></p>
       <p>Senha: <span id="iptv-senha"></span></p>
-      <p>DNS: <a href="http://iptv.pedrofracassi.me/lista.m3u" target="_blank">http://iptv.pedrofracassi.me/lista.m3u/</a></p>
+      <p>DNS: <a href="http://iptv.pedrofracassi.me/lista.m3u" target="_blank">http://iptv.pedrofracassi.me/lista.m3u</a></p>
     </div>
   </div>
 
@@ -118,6 +118,7 @@
     const lazerPlaySenha = document.getElementById('lazer-play-senha');
     const iptvUsuario = document.getElementById('iptv-usuario');
     const iptvSenha = document.getElementById('iptv-senha');
+    const m3uLink = document.getElementById('m3u-link');
 
     // Função para gerar senha aleatória
     function gerarSenha() {
@@ -150,11 +151,15 @@
         // Preencher dados do usuário criado
         dadosUsuario.textContent = usuario;
         dadosSenha.textContent = senha;
-        dadosVencimento.textContent = new Date().toLocaleString();
+        dadosVencimento.textContent = new Date(new Date().setDate(new Date().getDate() + 30)).toLocaleString();
         lazerPlayUsuario.textContent = usuario;
         lazerPlaySenha.textContent = senha;
         iptvUsuario.textContent = usuario;
         iptvSenha.textContent = senha;
+
+        // Gerar o link da lista M3U com as credenciais
+        m3uLink.href = `http://iptv.pedrofracassi.me/lista.m3u?username=${usuario}&password=${senha}`;
+        m3uLink.textContent = 'Clique para acessar';
 
         // Mostrar a seção de dados
         infoContainer.style.display = 'block';
