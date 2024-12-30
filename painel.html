@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Controle IPTV</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .header {
+      background-color: #333;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+    }
+    .content {
+      padding: 20px;
+      margin-top: 20px;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin-top: 20px;
+      background-color: #007BFF;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .button:hover {
+      background-color: #0056b3;
+    }
+    .form-container {
+      margin-top: 20px;
+      display: none;
+    }
+    .form-container input {
+      padding: 10px;
+      margin: 5px 0;
+      width: 100%;
+    }
+    .info-container {
+      margin-top: 20px;
+      display: none;
+    }
+    .info-container p {
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Painel de Controle IPTV</h1>
+  </div>
+
+  <div class="content">
+    <h2>Bem-vindo ao painel!</h2>
+
+    <!-- Informações dos usuários -->
+    <div class="user-info">
+      <p><strong>Usuários Ativos:</strong> <span id="usuarios-ativos">0</span></p>
+      <p><strong>Usuário Teste:</strong> <span id="usuario-teste">Hbcfvvcccc</span></p>
+      <p><strong>Usuários Online:</strong> <span id="usuarios-online">0</span></p>
+    </div>
+
+    <!-- Botão para criar usuário -->
+    <button class="button" id="criar-usuario-btn">Criar Usuário</button>
+
+    <!-- Formulário de criação de usuário -->
+    <div class="form-container" id="form-container">
+      <h3>Criação de Usuário</h3>
+      <label for="nome-usuario">Nome de Usuário:</label>
+      <input type="text" id="nome-usuario" placeholder="Digite o nome de usuário" required>
+      <button class="button" id="gerar-senha-btn">Gerar Senha Aleatória</button>
+      <p><strong>Senha: </strong><span id="senha-aleatoria"></span></p>
+      <button class="button" id="criar-usuario">Criar Usuário</button>
+    </div>
+
+    <!-- Exibição dos dados do usuário criado -->
+    <div class="info-container" id="info-container">
+      <h3>SEUS DADOS:</h3>
+      <p><strong>Usuário:</strong> <span id="dados-usuario"></span></p>
+      <p><strong>Senha:</strong> <span id="dados-senha"></span></p>
+      <p><strong>Vencimento:</strong> <span id="dados-vencimento"></span></p>
+      <p><strong>EPG:</strong> <a href="http://x2.rs/epg" target="_blank">http://x2.rs/epg</a></p>
+      <p><strong>Lista M3U:</strong> <a href="http://brisenox.com/get.php?username=Hbcfvvcccc&password=qib4f9ip&type=m3u_plus&output=ts" target="_blank">Clique para acessar</a></p>
+      <p><strong>Lazer Play:</strong></p>
+      <p>Provider: centraliptvbr</p>
+      <p>Usuário: <span id="lazer-play-usuario"></span></p>
+      <p>Senha: <span id="lazer-play-senha"></span></p>
+      <p><strong>IPTV Smarters Player:</strong></p>
+      <p>Nome: Canais</p>
+      <p>Usuário: <span id="iptv-usuario"></span></p>
+      <p>Senha: <span id="iptv-senha"></span></p>
+      <p>DNS: <a href="https://elitebiel3376.github.io/m3uu/" target="_blank">https://elitebiel3376.github.io/m3uu/</a></p>
+    </div>
+  </div>
+
+  <script>
+    // Variáveis para armazenar dados
+    const gerarSenhaBtn = document.getElementById('gerar-senha-btn');
+    const criarUsuarioBtn = document.getElementById('criar-usuario-btn');
+    const criarUsuario = document.getElementById('criar-usuario');
+    const formContainer = document.getElementById('form-container');
+    const infoContainer = document.getElementById('info-container');
+    const nomeUsuario = document.getElementById('nome-usuario');
+    const senhaAleatoria = document.getElementById('senha-aleatoria');
+    const dadosUsuario = document.getElementById('dados-usuario');
+    const dadosSenha = document.getElementById('dados-senha');
+    const dadosVencimento = document.getElementById('dados-vencimento');
+    const lazerPlayUsuario = document.getElementById('lazer-play-usuario');
+    const lazerPlaySenha = document.getElementById('lazer-play-senha');
+    const iptvUsuario = document.getElementById('iptv-usuario');
+    const iptvSenha = document.getElementById('iptv-senha');
+
+    // Função para gerar senha aleatória
+    function gerarSenha() {
+      const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let senha = '';
+      for (let i = 0; i < 8; i++) {
+        senha += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
+      }
+      senhaAleatoria.textContent = senha;
+      return senha;
+    }
+
+    // Evento para mostrar o formulário de criação de usuário
+    criarUsuarioBtn.addEventListener('click', () => {
+      formContainer.style.display = 'block';
+    });
+
+    // Evento para gerar senha
+    gerarSenhaBtn.addEventListener('click', () => {
+      const senha = gerarSenha();
+      senhaAleatoria.textContent = senha;
+    });
+
+    // Evento para criar o usuário e mostrar os dados
+    criarUsuario.addEventListener('click', () => {
+      const usuario = nomeUsuario.value;
+      const senha = senhaAleatoria.textContent;
+
+      if (usuario && senha) {
+        // Preencher dados do usuário criado
+        dadosUsuario.textContent = usuario;
+        dadosSenha.textContent = senha;
+        dadosVencimento.textContent = new Date().toLocaleString();
+        lazerPlayUsuario.textContent = usuario;
+        lazerPlaySenha.textContent = senha;
+        iptvUsuario.textContent = usuario;
+        iptvSenha.textContent = senha;
+
+        // Mostrar a seção de dados
+        infoContainer.style.display = 'block';
+        formContainer.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
